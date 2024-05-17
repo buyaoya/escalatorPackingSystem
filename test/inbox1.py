@@ -542,7 +542,7 @@ if __name__ == "__main__":
     # for elevation in elevations:
     #     display.DisplayShape(elevation, color='green', transparency=0.9)  # 箱子半透明显示
 
-    # 显示箱子和梯形立体
+    # 显示箱子和梯形立体  
 
 
     display.View.SetScale(0.05)  #视图缩小

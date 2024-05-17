@@ -504,7 +504,7 @@ boxLength=12000
 boxWidth=2566
 
 scale_factor = 1
-elevation_height = 11070
+elevation_height = 6000
 truss_height = 982
 height = 1018
 lower_slope_length = 2025

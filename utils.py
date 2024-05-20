@@ -1,38 +1,21 @@
-
-from OCC.Core.BRepPrimAPI import BRepPrimAPI_MakeBox
-from OCC.Core.BRepBuilderAPI import BRepBuilderAPI_MakePolygon, BRepBuilderAPI_MakeFace,BRepBuilderAPI_Transform
-from OCC.Core.BRepPrimAPI import BRepPrimAPI_MakePrism
-from OCC.Core.gp import gp_Pnt, gp_Vec,gp_Trsf,gp_Ax1,gp_Dir
-from OCC.Display.SimpleGui import init_display
 from OCC.Core.GProp import GProp_GProps
 from OCC.Core.BRepGProp import brepgprop
-# from OCC.Display.WebGl. import init_display
+from itertools import combinations
 import numpy as np
 import math
-from OCC.Core.TopExp import TopExp_Explorer
 from OCC.Core.TopoDS import topods
 from OCC.Core.BRep import BRep_Tool
 from OCC.Core.TopAbs import TopAbs_VERTEX
-
-
-from OCC.Core.BRepAlgoAPI import BRepAlgoAPI_Splitter, BRepAlgoAPI_Fuse
-from OCC.Core.BRepBuilderAPI import BRepBuilderAPI_MakePolygon, BRepBuilderAPI_MakeFace, BRepBuilderAPI_Transform, BRepBuilderAPI_MakePolygon, BRepBuilderAPI_MakeWire
+from OCC.Core.BRepAlgoAPI import BRepAlgoAPI_Fuse
+from OCC.Core.BRepBuilderAPI import BRepBuilderAPI_MakePolygon, BRepBuilderAPI_MakeFace, BRepBuilderAPI_MakeEdge, BRepBuilderAPI_Transform, BRepBuilderAPI_MakePolygon, BRepBuilderAPI_MakeWire
 from OCC.Core.BRepPrimAPI import BRepPrimAPI_MakeBox, BRepPrimAPI_MakePrism
-from OCC.Core.gp import gp_Pnt, gp_Vec,gp_Trsf,gp_Ax1,gp_Dir, gp_Circ, gp_Ax2
+from OCC.Core.gp import gp_Pnt, gp_Vec,gp_Trsf,gp_Ax1,gp_Dir, gp_Circ, gp_Ax2, gp_Pln
 from OCC.Core import TopAbs
-from OCC.Display.WebGl.jupyter_renderer import JupyterRenderer
-from OCC.Core.gp import gp_Pnt, gp_Vec, gp_Dir, gp_Pln
-from OCC.Core.BRepBuilderAPI import BRepBuilderAPI_MakePolygon, BRepBuilderAPI_MakeFace, BRepBuilderAPI_MakeEdge
-from OCC.Core.BRep import BRep_Polygon3D
 from OCC.Core.TopExp import TopExp_Explorer
 from OCC.Core.BOPAlgo import BOPAlgo_Splitter
-from OCC.Core.Bnd import Bnd_Box
-from OCC.Core.BRepBndLib import brepbndlib_Add
-from OCC.Core.BRepMesh import BRepMesh_IncrementalMesh
 from OCC.Core.GC import GC_MakeArcOfCircle
-from OCC.Core.Geom import Geom_Curve, Geom_Line
+from OCC.Core.Geom import Geom_Line
 from OCC.Display.SimpleGui import init_display
-from OCC.Core.GC import GC_MakeArcOfCircle
 from OCC.Core.BRepAdaptor import BRepAdaptor_Curve
 from create_prism import create_prism as cs
 from OCC.Core.BRepAlgoAPI import BRepAlgoAPI_Common
@@ -660,6 +643,16 @@ def threePack(elevationSplit):
     print("是否在箱子内：",isInBox(anotherBoxmid))
 
 
+def get_splitsets(split_points):
+    # 存储所有子集的列表
+    splitsets = []
+    lst = list(range(len(split_points)))
+    # 遍历所有可能的子集大小
+    for i in range(len(lst) + 1):
+        # 生成当前大小的所有子集
+        for combo in combinations(lst, i):
+            splitsets.append(list(combo))
+    return splitsets   
 
 boxLength=12000
 boxWidth=2566

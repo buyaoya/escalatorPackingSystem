@@ -184,14 +184,14 @@ def create_prism(elevation_height, height, truss_height, upper_extension_length=
         elevations.append(moved_shape)
     return elevations
     
-def createBox(boxNum):
+def createBox(boxNum, boxes):
     for n in range(boxNum):
         if(n==0):
             box=BRepPrimAPI_MakeBox(12000, 2000, 2566).Shape()
         else:
             start_point = gp_Pnt(0, 4000*n, 0) 
             box = BRepPrimAPI_MakeBox(start_point, 12000, 2000, 2566).Shape()
-        boxs.append(box)
+        boxes.append(box)
 
 
 
@@ -301,7 +301,7 @@ def get_split_idx(all_split_points, elevation_height, height, truss_height, uppe
 
 
 # 分割第几个梯子
-def splitElevation(elevations,i):
+def splitElevation(elevations,i,split_idx):
     
     # 创建分割面
     all_points = calculate_split_points(elevation_height, height, upper_extension_length, degree, lower_slope_length, scale_factor)
@@ -583,7 +583,7 @@ def bestLongPack(elevationSplit):
     display.DisplayShape(anotherBoxDown, update=True,color='red', transparency=0.2)
     display.DisplayShape(inBoxUp, update=True,color='red', transparency=0.2)
     # 要不再判断坐标是否在箱子 》= 《=
-    # print("是否碰撞：",isIntersect(inBoxUp,boxs[0]))
+    # print("是否碰撞：",isIntersect(inBoxUp,boxes[0]))
 
 # bestLongPack(elevationSplit[0])
 
@@ -618,7 +618,7 @@ def threePack(elevationSplit):
     # 将下半段移入另一个箱子  这里应该写选箱子的逻辑  如果按照箱子列表的索引 计算y轴应该移动几个4000
     
     # 如果在这个中间块前有一个其他块   如果用箱子的索引的话，用个变量记录该箱子的占据x轴位置，
-    # boxs[i].takex=1000
+    # boxes[i].takex=1000
 
 
     trsf = gp_Trsf()
@@ -671,7 +671,7 @@ if __name__ == "__main__":
     display, start_display, add_menu, add_function_to_menu = init_display()
 
     boxNum=2
-    boxs=[]
+    boxes=[]
     createBox(boxNum)
     
     elevations=[]
@@ -691,7 +691,7 @@ if __name__ == "__main__":
     # bestLongPack(elevationSplit[0])
     if(len(split_points)==1):  
         midPack(elevationSplit[0])
-    for box in boxs:
+    for box in boxes:
         display.DisplayShape(box, color='blue', transparency=0.9)  # 箱子半透明显示
     # for elevation in elevations:
     #     display.DisplayShape(elevation, color='green', transparency=0.9)  # 箱子半透明显示

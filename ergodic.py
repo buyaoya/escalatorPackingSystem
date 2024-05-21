@@ -33,8 +33,8 @@ from OCC.Core.BRepAdaptor import BRepAdaptor_Curve
 from create_prism import create_prism as cs
 from OCC.Core.BRep import BRep_Builder
 from OCC.Core.BRepAlgoAPI import BRepAlgoAPI_Common
-
-
+from tqdm import tqdm
+import time
 
 
 
@@ -527,7 +527,7 @@ degree = 30
 num=1 # 梯数
 if __name__ == "__main__":
     # 初始化显示
-    # display, start_display, add_menu, add_function_to_menu = init_display()
+    display, start_display, add_menu, add_function_to_menu = init_display()
 
     boxNum=1
     boxs=[]
@@ -571,8 +571,8 @@ if __name__ == "__main__":
         successd=[]
         res=0
         for bufen in preprocess_sahpes:
-            for x in range(-2000,12000,100):
-                print(1)
+            for x in tqdm(range(-2000,12000,100)):
+
                 for z in range(-1000,2566,20):
                     for angle in range(0,360,3):
                         # print(1)
@@ -601,3 +601,6 @@ if __name__ == "__main__":
                                 successd.append(Shape)
                                 res +=1
         print("res",res) 
+    with open('result.txt', 'w') as f:
+        for item in successd:
+            f.write("%s\n" % item)

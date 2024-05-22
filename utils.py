@@ -301,7 +301,7 @@ def get_split_idx(all_split_points, elevation_height, height, truss_height, uppe
 
 
 # 分割第几个梯子
-def splitElevation(elevations,i,split_idx):
+def splitElevation(elevations,elevationSplit,i,split_idx):
     
     # 创建分割面
     all_points = calculate_split_points(elevation_height, height, upper_extension_length, degree, lower_slope_length, scale_factor)

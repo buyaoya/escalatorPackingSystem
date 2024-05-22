@@ -1,4 +1,5 @@
 from utils import *
+from tqdm import tqdm
 boxLength=12000
 boxWidth=2566
 
@@ -37,7 +38,7 @@ if __name__ == "__main__":
     # 切完
     for i in split_idxs:
         print(i)
-        split_points=splitElevation(elevations,0,i)  
+        split_points=splitElevation(elevations,elevationSplit,0,i)  
         #elevationSplit[0]  一个切完所有形状的集合  0表示选择创建的第一个梯子 目前只创建一个梯子
         # 将所有形状
         preprocess_sahpes=[]
@@ -57,11 +58,9 @@ if __name__ == "__main__":
         successd=[]
         res=0
         for bufen in preprocess_sahpes:
-            for x in range(-2000,12000,100):
-                print(1)
+            for x in tqdm(range(-2000,12000,100)):
                 for z in range(-1000,2566,20):
                     for angle in range(0,360,3):
-                        # print(1)
                         trsf = gp_Trsf()
                         # 定义一个向量，表示沿Z轴移动
                         move_vector = gp_Vec(x, 0, z)
